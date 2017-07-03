@@ -1,0 +1,103 @@
+---
+title: Registration page
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MCT-Network - Registration</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/heroic-features.css" rel="stylesheet">
+    
+    <link href="css/mobshop.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    {% include nav.html %}
+
+    <!-- Page Content -->
+    <div class="container">
+    
+    	<div class="row">
+        	<div class="col-lg-12">
+            	<div class="panel panel-default">
+                	<div class="panel-heading">
+                    	Online service registration
+                    </div>
+                    <div class="panel-body">
+                    	<h2>Registering online service</h2>
+                        
+                    	<p>To register for online shopping, you must log into the server <code>play.mctnet.tk</code> on Minecraft PC. And type the following command in <b>Games Server</b> to set a online shopping password for your account:</p>
+                        <pre>/shop online [password] [confirmPassword]</pre>
+                        
+                        <p>You are required to set a 8-letter password with at least one capital letter, one number character, one non-alphanumeric character. For example:</p>
+                        
+                        <pre>/shop online Minecr@ft123 Minecr@ft123</pre>
+                        
+                        <p>You can test the functionality by purchasing an item on this website.</p>
+                        
+                        <h2>Disabling online service</h2>
+                        
+                        <p>Online shopping service can be disabled and unregistered anytime when you are logged into the server <code>play.mctnet.tk</code> on Minecraft PC. Type the following command in <b>Games Server</b>:</p>
+                        
+                        <pre>/shop disableonline</pre>
+                        
+                        <h2>Changing password</h2>
+                        
+                        <p>Changing password is the same as how you register the online service. If you forget your password, <b>DO NOT ATTEMPT TO FIND IT BY ENTERING TO THE LOGIN PAGE</b>. This might block your IP. You <b>SHOULD</b> change the password in-game instead.</p>
+                        
+                        <h2>Experimental</h2>
+                        
+                        <p>The mobShop system is currently still experimental and may experience errors on transactions. If you believe there are problems, you are advised to <a href="contact.html">contact us</a>. We would be happy to help you.</p>
+                        
+                        <hr />
+                        
+                        <p><b>WARNING:</b> For your safety and reduce server traffic, if the user has attempted to <b>enter the online shopping password wrong</b> or <b>creating connections too fast</b> (faster than 1 second) for more than <b>10</b> times, the internet address (IP) will be blocked for 5 minutes (300 seconds). Continuously may lead to permanent blocking. To unblock a ban on this matter, please <a href="contact.html">contact us</a> directly.
+                    </div>
+                </div>
+            </div>
+        </div>    
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Anthony Law 2017</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
