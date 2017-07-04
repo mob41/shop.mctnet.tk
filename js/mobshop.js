@@ -160,7 +160,7 @@ $(document).ready(function (){
 			return;	
 		}
 		
-		shopsArr = JSON.parse(shops);
+		shopsArr = JSON.parse(shopsArrStr);
 		shopItemsArr = JSON.parse(shopItemsArrStr);
 		
 		var shopItemJson = getItemByUid(shopItemUid);
@@ -368,11 +368,11 @@ function downloadMcItemJson(){
 }
 
 function getShopByName(shopName){
-	if (shops != null){
+	if (shopsArr != null){
 		var i;
-		for (i = 0; i < shops.length; i++){
-			if (shops[i].name == shopName){
-				return shops[i];	
+		for (i = 0; i < shopsArr.length; i++){
+			if (shopsArr[i].name == shopName){
+				return shopsArr[i];	
 			}
 		}
 	}
