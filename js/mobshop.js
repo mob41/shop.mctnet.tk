@@ -208,7 +208,7 @@ $(document).ready(function (){
 			if (shopItemJson.buyAllowed){
 				captionNodeStr += "<a href=\"#\" class=\"btn btn-primary\" onclick=\"buy_item('" + shopItemUid + "')\">Buy now</a>";	
 			}
-			captionNodeStr += "<a href=\"http://shopw.mctnet.tk:2001/map/?worldname=world&mapname=flat&zoom=6&x=" + shopItemJson.x + "&y=" + shopItemJson.y + "&z=" + shopItemJson.z + "\" class=\"btn btn-info\" target=\"_blank\">Show Shop Item Sign On Map</a>"	
+			captionNodeStr += "<a href=\"http://shopw.mctnet.tk:2001/map/?worldname=world&mapname=flat&zoom=6&x=" + shopItemJson.x + "&y=" + shopItemJson.y + "&z=" + shopItemJson.z + "\" class=\"btn btn-info\" target=\"_blank\">Show Shop Item Sign On Map</a>";
 		}
 		
 		if (doc.endsWith("purchase.html")){
