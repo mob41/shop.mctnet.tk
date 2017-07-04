@@ -1,0 +1,161 @@
+---
+title: Shop Item Page
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MCT-Network - Purchase</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/shop-item.css" rel="stylesheet">
+    
+    <link href="css/mobshop.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+	{% include nav.html %}
+    
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="thumbnail">
+                    <img class="img-responsive" style="width:auto; height:300px;" src="http://placehold.it/800x300" id="shopItemImage" alt="">
+                    <div class="caption-full" id="shopItemCaption">
+                        <h4 class="pull-right">---</h4>
+                        <h4><a href="#">---</a>
+                        </h4>
+                        <p>---</p>
+                    </div>
+                    <div class="ratings">
+                        <p class="pull-right" id="shopItemReviewCount">Item not rated</p>
+                        <p id="shopItemRating">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            --- stars
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+        	<div class="col-lg-12">
+            	<div class="panel panel-info">
+                	<div class="panel-heading">
+                    	Notice for purchasing online shop item
+                    </div>
+                    <div class="panel-body">
+                    	<b>Please read carefully these terms.</b>
+                    	<h3>Notice</h3>
+                        <ul>
+                        	<li>Purchasing shop items will not be refund.</li>
+                            <li>All transactions are recorded and count into the Marketing Financial System.</li>
+                            <li>Your transaction record might be published after the current round of open market.</li>
+                            <li>Online shopping is quite vulnerable currently. Please ensure the following:
+                            	<ul>
+                                	<li>You are using a secured WiFi/wired network.</li>
+                                    <li>You have an effective Anti-Virus application installed.</li>
+                                </ul>	
+                            </li>
+                            <li>Your connection is not encrypted currently.</li>
+                        </ul>
+                        <h3>Ensure Online Service Is Enabled</h3>
+                        <p>If the online service of your Minecraft account is not enabled, it is resulted as incorrect credentials for your online shopping password. You can register your online service <a href="register.html">here</a>.</p>
+                        <h3>Do Not Try Passwords</h3>
+                        <p>Trying passwords are violating our Terms of Service and <b>you are suspected as a hacker</b>. You are able to change password anytime in the Minecraft server. See <a href="register.html">here</a>. For your safety, trying passwords for wrong or creating new connections so fast for more than 10 times can lead to <b>a automatic ban/blocking of your IP address</b>.</p>
+                        <h3>Experimental</h3>
+                        <p>To be noticed, this online shopping system is currently experimental and errors, problems are expected.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+        	<div class="col-lg-12">
+            	<div class="panel panel-success">
+                	<div class="panel-heading">
+                    	Payment
+                    </div>
+                    <div class="panel-body">
+            			<div class="alert alert-danger">
+                			<i class="glyphicon glyphicon-exclamation-sign"></i> Do not try password. If you forget password, you can reset with <a href="register.html">these instructions</a>. If you still find problems, please <a href="contact.html">contact us</a>.
+                		</div>
+                    	<h3 class="text-center">Pay with your mobShop account</h3>
+                        <div class="form-group">
+                        	<label>Minecraft username:</label>
+                            <input type="text" id="usr" class="form-control" />
+                        </div>
+            			<div class="alert alert-warning">
+                			<i class="glyphicon glyphicon-exclamation-sign"></i> This is <b>MCT-Network Online Shopping Password</b>, which is set through <a href="register.html">these instructions</a>. Do not use your Minecraft/Mojang/MCT-Network Server login password.
+                		</div>
+                        <div class="form-group">
+                        	<label>Online shopping password:</label>
+                            <input type="password" id="pwd" class="form-control" />
+                        </div>
+                        <h4 class="pull-right">You are paying --- for mob$---.</h4>
+                        <a href="#" onclick="sendPay()" class="btn btn-success">Pay now!</a>
+                        <a href="register.html" class="btn btn-warning">Forget password</a>
+                    	<hr />
+                    	<h3 class="text-center">Don't have an account?</h3>
+                        <p class="text-center"><a href="register.html" class="btn btn-primary">Register now!</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <div class="container">
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Anthony Law 2017</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- mobShop script -->
+    <script src="js/mobshop.js"></script>
+
+</body>
+
+</html>

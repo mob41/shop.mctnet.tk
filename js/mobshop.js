@@ -1,9 +1,8 @@
 // mobShop API communication script
 
-const itemsUrl = "http://minecraft-ids.grahamedgecombe.com/items.json";
-//const itemsUrl = "http://shop.mctnet.tk/items.json";
-const srvUrl = "http://192.168.168.121:7291/";
-//const srvUrl = "http://shopw.mctnet.tk:2001/mobshop/api/v1";
+//const itemsUrl = "http://minecraft-ids.grahamedgecombe.com/items.json";
+const itemsUrl = "http://shop.mctnet.tk/items.json";
+const srvUrl = "http://shopw.mctnet.tk:2001/mobshop/api/v1/";
 const connErrMsg = "<h1>Error</h1>" +
 					"<p>Could not connect to server. Please check your connection or the availablity of the server." + 
 					"<h3>What have just happened?</h3>" + 
@@ -83,6 +82,7 @@ $(document).ready(function (){
 					method: "POST",
 					dataType: "json",
 					data: JSON.stringify(reqJson),
+					timeout: 10000,
 					error: function(){
 						$("#loadMsgHeading").html("Error when connecting to server");
 						$("#loadMsgBody").html(connErrMsg);
@@ -184,6 +184,7 @@ function downloadMcItemJson(){
 	return $.ajax({
 		url: itemsUrl,
 		dataType: "json",
+		timeout: 10000,
 		success: function(data){
 			itemsJson = data;
 		},
