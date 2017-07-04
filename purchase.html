@@ -73,17 +73,24 @@ title: Shop Item Page
                         <div class="panel-body">
                         	<div class="row">
                             	<div class="col-xs-3 text-right">
-                                	<img src="loading.gif" width="64" height="64" />
+                                	<div id="statusIcon">
+                                    	<img src="loading.gif" id="loadingGif" width="64" height="64" />
+                                    </div>
                                 </div>
                                 <div class="col-xs-9 text-left">
                                 	The payment progress takes around few seconds to few minutes. Please be patient.
                             		<ul>
-                            			<li><b>Awaiting to create connection</b></li>
-                             		   <li>Validating online shopping credentials</li>
-                             		   <li>Validating account balance</li>
-                             		   <li>Purchasing shop item</li>
-                             		   <li>Transaction done. Awaiting user to login to receive.</li>
+                            		   <li id="prog1"><b>Awaiting to create connection</b></li>
+                             		   <li id="prog2">Requesting information</li>
+                             		   <li id="prog3">Validating online shopping credentials</li>
+                             		   <li id="prog4">Validating remaining available stack</li>
+                             		   <li id="prog5">Purchasing shop item</li>
+                             		   <li id="prog6">Transaction done. Awaiting user to login to receive.</li>
                             		</ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                            	<div class="col-lg-12" id="details">
                                 </div>
                             </div>
                         </div>
@@ -147,8 +154,8 @@ title: Shop Item Page
                         	<label>Online shopping password:</label>
                             <input type="password" id="pwd" class="form-control" />
                         </div>
-                        <h4 class="pull-right">You are paying --- for mob$---.</h4>
-                        <a href="#" onclick="sendPay()" class="btn btn-success">Pay now!</a>
+                        <h4 class="pull-right" id="paymentNotice">You are paying --- for mob$---.</h4>
+                        <button onclick="sendPay()" class="btn btn-success">Pay now!</button>
                         <a href="register.html" class="btn btn-warning">Forget password</a>
                     	<hr />
                     	<h3 class="text-center">Don't have an account?</h3>

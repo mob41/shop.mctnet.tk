@@ -25,6 +25,42 @@ const fastErrMsg = "<h1>Error</h1>" +
 					"<li>You are running a DDoS attack <p>Hmm... I hope that won't happen on you.</p></li>" +
 					"</ul>" +
 					"<p>Please solve this problem otherwise a increasing fail count to 10 will cause a ban/block of your IP address!</p>";
+const wrongCredErrMsg = "<h1>Unable to login</h1>" +
+					"<p>Your username or password was incorrect. You might have not registered for online service. <b>Do not try password.</b> Reset or setup your account at <a href=\"register.html\">here</a>.</p>" + 
+					"<h3>What have just happened?</h3>" + 
+					"<p>Payment have failed as the credentials specified was invalid. Or the account specified is even not registered." +
+					"<h3>What should I do?</h3>" + 
+					"<p>There are probably few exceptions happening:</p>" + 
+					"<ul>" +
+					"<li>You have not registered for online service <p>You have to register for online service with <a href=\"register.html\">these instructions</a>.</p></li>" + 
+					"<li>You are trying for a correct password <p>No, please stop. You are violating the Terms of Service.</p></li>" +
+					"<li>You accidentally typed a wrong password <p>Okay, try it again :D</p></li>"
+					"</ul>" +
+					"<p>Please solve this problem otherwise a increasing fail count to 10 will cause a ban/block of your IP address!</p>";
+const noItemErrMsg = "<h1>Error</h1>" +
+					"<p>The specified shop item does not exist.</p>" + 
+					"<h3>What have just happened?</h3>" + 
+					"<p>Could not find the requested shop item." +
+					"<h3>What should I do?</h3>" + 
+					"<p>There are probably few exceptions happening:</p>" + 
+					"<ul>" +
+					"<li>The shop item was removed by the owner recently.</li>" + 
+					"<li>You entered to a wrong page.</li>" +
+					"</ul>";
+const mcItemInvalidErrMsg = "<h1>Error</h1>" +
+					"<p>The Minecraft Item Name for the shop item was invalid.</p>" + 
+					"<h3>What have just happened?</h3>" + 
+					"<p>In the Minecraft items database, this shop item's Minecraft item name was not found in the database." +
+					"<h3>What should I do?</h3>" + 
+					"<p>The database of shop items is probably broken. Please <a href=\"contact.html\">contact us</a> immediately with this page open.</p>";
+const noBalanceErrMsg = "<h1>Insufficient balance</h1>" +
+					"<p>Opps... you don't have enough mobs$ (money) to buy this shop item!</p>" + 
+					"<p>You can gain mobs$ (money) by selling items in-game in the offical or residence shops. Nevertheless, you can also <a href=\"support_srv.html\">support us</a> to gain mobs$ (money)!</p>";
+const noStackErrMsg = "<h1>Insufficient stack</h1>" +
+					"<p>The shop item owner does not have enough remaining stacks for purchasing this shop item.</p>" + 
+					"<p>Please contact the shop owner in-game using the <code>/mail</code> command!</p>";
+const transErrMsg = "<h1>Transaction Error</h1>" +
+					"<p>Unexpected transaction error occurred. Please <a href=\"contact.html\">contact us</a> immediately with this page open.</p>";
 const blockedErrMsg = "<h1>Strict Warning</h1>" +
 					"<p>Your IP has been blocked for 5 minutes.</p>" + 
 					"<h3>What have just happened?</h3>" + 
@@ -130,17 +166,20 @@ $(document).ready(function (){
 		}
 		
 		var shopName = shopItemJson.shopName;
-		$("#shopNameTitle").html(shopName);
 		
-		var itemsOfShop = getItemsOfShop(shopName);
+		if (doc.endsWith("shop_item.html")){
+			$("#shopNameTitle").html(shopName);
 		
-		if (itemsOfShop != null || itemsOfShop.length > 0){
-			var linksNodeStr = "";
-			var i;
-			for (i = 0; i < itemsOfShop.length; i++){
-				linksNodeStr += "<a href=\"#\" onclick=\"item_detail('" + itemsOfShop[i].uid + "')\" class=\"list-group-item" + (itemsOfShop[i].uid == shopItemUid ? " active" : "") + "\">" + itemsOfShop[i].itemName + "</a>";
+			var itemsOfShop = getItemsOfShop(shopName);
+		
+			if (itemsOfShop != null || itemsOfShop.length > 0){
+				var linksNodeStr = "";
+				var i;
+				for (i = 0; i < itemsOfShop.length; i++){
+					linksNodeStr += "<a href=\"#\" onclick=\"item_detail('" + itemsOfShop[i].uid + "')\" class=\"list-group-item" + (itemsOfShop[i].uid == shopItemUid ? " active" : "") + "\">" + itemsOfShop[i].itemName + "</a>";
+				}
+				$("#shopItemsLinks").html(linksNodeStr);	
 			}
-			$("#shopItemsLinks").html(linksNodeStr);	
 		}
 		
 		var captionNodeStr = "";
@@ -154,6 +193,15 @@ $(document).ready(function (){
 		
 		if (doc.endsWith("shop_item.html")){
 			captionNodeStr += "<a href=\"#\" class=\"btn btn-primary\" onclick=\"buy_item('" + shopItemUid + "')\">Buy now</a>";	
+		}
+		
+		if (doc.endsWith("purchase.html")){
+			if (!shopItemJson.buyAllowed){
+				alert("This shop item is marked as not for sale. You cannot buy this product.");
+				window.location = "shop.html";
+				return;
+			}
+			$("#paymentNotice").html("You are paying " + shopItemJson.owner + " (" + shopName + ") for mob$" + shopItemJson.buyPrice + ".");	
 		}
 		
 		$("#shopItemCaption").html(captionNodeStr);
@@ -184,8 +232,108 @@ function buy_item(uid){
 	window.location = "purchase.html";	
 }
 
+function boldObj(obj){
+	var html = obj.html();
+	if (!html.startsWith("<b>") && !html.endsWith("</b>")){
+		obj.html("<b>" + html + "</b>");	
+	}
+}
+
+function unboldObj(obj){
+	var html = obj.html();
+	if (html.startsWith("<b>") && html.endsWith("</b>")){
+		obj.html(html.substring(3, html.length - 4));
+	}
+}
+
 function sendPay(){
+	if ($("#usr").val() == "" || $("#pwd").val() == ""){
+		alert("Please enter your credentials.");
+		return;	
+	}
+	
+	if (!confirm("Please verify your credentials. Are you sure to pay?")){
+		return;
+	}
+	
+	$("#noticeContainer").attr("style", "display: none");
+	$("#progressContainer").attr("style", "display: block");
+	
+	ajaxQueue.push(function(){
+		unboldObj($("#prog1"));
+		boldObj($("#prog2"));
+	
+		var reqJson = {
+			action: 3,
+			shopItemUid: shopItemUid,
+			user: $("#usr").val(),
+			pass: $("#pwd").val()
+		};
+	
+		$("#usr").val("");
+		$("#pwd").val("");
 		
+		usr = null;
+		pwd = null;
+		$.ajax({
+			url: srvUrl,
+			method: "POST",
+			data: JSON.stringify(reqJson),
+			dataType: "json",
+			success: function(data){
+				if (data.result == 0){
+					unboldObj($("#prog2"));
+					boldObj($("#prog6"));
+					$("#statusIcon").html("<i class=\"text-success glyphicon glyphicon-ok\" style=\"font-size:6em;\"></i>");
+					$("#details").html("<h3>Success</h3><p>Transaction success! You can gain your items by typing in <b>Games Server</b>: <code>/shop items</code>.</p><p class=\"text-center\"><a href=\"shop.html\" class=\"btn btn-primary\">Back to shop page</a></p>");
+				} else if (data.result == -2){
+					$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+					$("#details").html(fastErrMsg + "<p>You have failed to access to the interface for <code>" + data.fail + "</code> times.</p>");
+				} else if (data.result == -3){
+					$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+					$("#details").html(blockedErrMsg);
+				} else if (data.result == -5){
+					unboldObj($("#prog2"));
+					boldObj($("#prog3"));
+					$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+					$("#details").html(wrongCredErrMsg + "<p>You have failed to access to the interface for <code>" + data.fail + "</code> times.</p>");
+				} else if (data.result == -6){
+					unboldObj($("#prog2"));
+					boldObj($("#prog4"));
+					$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+					$("#details").html(noItemErrMsg);
+				} else if (data.result == -7){
+					unboldObj($("#prog2"));
+					boldObj($("#prog4"));
+					$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+					$("#details").html(mcItemInvalidErrMsg);
+				} else if (data.result == -8){
+					unboldObj($("#prog2"));
+					boldObj($("#prog5"));
+					$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+					$("#details").html(noBalanceErrMsg);
+				} else if (data.result == -9){
+					unboldObj($("#prog2"));
+					boldObj($("#prog5"));
+					$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+					$("#details").html(noStackErrMsg);
+				} else if (data.result == -10){
+					unboldObj($("#prog2"));
+					boldObj($("#prog5"));
+					$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+					$("#details").html(transErrMsg);
+				} else {
+					$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+					$("#details").html(unknErrMsg + "<h3>Server Message</h3><p>Result code: <code>" + data.result + "</code></p><p>Fail count (if available): <code>" + data.fail + "</code> (automatically blocks if this count is larger than 10)</p><p>Message: <pre>" + data.message + "</pre></p>");
+				}
+			},
+			error: function(){
+				//$("#loadingGif").attr("style", "display: none");
+				$("#statusIcon").html("<i class=\"text-danger glyphicon glyphicon-warning-sign\" style=\"font-size:6em;\"></i>");
+				$("#details").html(connErrMsg);
+			}
+		});
+	});
 }
 
 function downloadMcItemJson(){
