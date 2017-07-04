@@ -168,7 +168,7 @@ $(document).ready(function (){
 		var shopName = shopItemJson.shopName;
 		
 		if (doc.endsWith("shop_item.html")){
-			$("#shopNameTitle").html(shopName);
+			$("#shopNameTitle").html(shopName + " <a href=\"http://shopw.mctnet.tk:2001/map/?worldname=world&mapname=flat&zoom=6&x=" + shopItemJson.x + "&y=" + shopItemJson.y + "&z=" + shopItemJson.z + "\" class=\"btn btn-info\" target=\"_blank\">Show In Map</a>");
 		
 			var itemsOfShop = getItemsOfShop(shopName);
 		
