@@ -371,8 +371,8 @@ function getShopByName(shopName){
 	if (shopsArr != null){
 		var i;
 		for (i = 0; i < shopsArr.length; i++){
-			if (shopsArr[i].name == shopName){
-				return shopsArr[i];	
+			if (shopsArr[i].shopName == shopName){
+				return shopsArr [i];	
 			}
 		}
 	}
