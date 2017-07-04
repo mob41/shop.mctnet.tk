@@ -111,7 +111,7 @@ $(document).ready(function (){
 			};
 			ajaxQueue.push(fun);
 		}
-	} else if (doc.endsWith("shop_item.html")){
+	} else if (doc.endsWith("shop_item.html") || doc.endsWith("purchase.html")){
 		shopItemUid = localStorage.getItem("shopItemUid");
 		var shopItemsArrStr = localStorage.getItem("shopItems");
 		
@@ -151,7 +151,11 @@ $(document).ready(function (){
 		}
 		captionNodeStr += "<h4>" + shopItemJson.itemName + "</h4>";
 		captionNodeStr += "<p>" + shopItemJson.desc + "</p>";
-		captionNodeStr += "<a href=\"#\" class=\"btn btn-primary\" onclick=\"buy_item('" + shopItemUid + "')\">Buy now</a>";
+		
+		if (doc.endsWith("shop_item.html")){
+			captionNodeStr += "<a href=\"#\" class=\"btn btn-primary\" onclick=\"buy_item('" + shopItemUid + "')\">Buy now</a>";	
+		}
+		
 		$("#shopItemCaption").html(captionNodeStr);
 		
 		if (itemsJson == null){
@@ -178,6 +182,10 @@ function item_detail(uid){
 function buy_item(uid){
 	localStorage.setItem("shopItemUid", uid);
 	window.location = "purchase.html";	
+}
+
+function sendPay(){
+		
 }
 
 function downloadMcItemJson(){
