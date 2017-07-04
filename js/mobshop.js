@@ -84,6 +84,7 @@ var ajaxQueueTimer = null;
 var shopItemUid = null;
 var itemsJson = null;
 var shopItemsArr = null;
+var shopsArr = null;
 
 $(document).ready(function (){
 	ajaxQueueTimer = setInterval(ajaxQueueHandler, 2000);
@@ -127,6 +128,8 @@ $(document).ready(function (){
 						console.log(data);
 						if (data.result == 0){
 							shopItemsArr = data.items;
+							shopsArr = data.shops;
+							localStorage.setItem("shops", JSON.stringify(shopsArr));
 							localStorage.setItem("shopItems", JSON.stringify(shopItemsArr));
 							$("#shopNameTitle").html("All shops");
 							$("#loadMsg").attr("style", "display: none");
@@ -150,12 +153,14 @@ $(document).ready(function (){
 	} else if (doc.endsWith("shop_item.html") || doc.endsWith("purchase.html")){
 		shopItemUid = localStorage.getItem("shopItemUid");
 		var shopItemsArrStr = localStorage.getItem("shopItems");
+		var shopsArrStr = localStorage.getItem("shops");
 		
-		if (shopItemUid == null || shopItemsArrStr == null){
+		if (shopItemUid == null || shopItemsArrStr == null || shopsArrStr == null){
 			window.location = "shop.html";
 			return;	
 		}
 		
+		shopsArr = JSON.parse(shops);
 		shopItemsArr = JSON.parse(shopItemsArrStr);
 		
 		var shopItemJson = getItemByUid(shopItemUid);
@@ -167,8 +172,16 @@ $(document).ready(function (){
 		
 		var shopName = shopItemJson.shopName;
 		
+		var shopJson = getShopByName(shopName);
+		
+		if (shopJson == null){
+			alert("The associated shop of this shop item does not exist. The shop identifier sign may be removed.");
+			window.location = "shop.html";
+			return;
+		}
+		
 		if (doc.endsWith("shop_item.html")){
-			$("#shopNameTitle").html(shopName + " <a href=\"http://shopw.mctnet.tk:2001/map/?worldname=world&mapname=flat&zoom=6&x=" + shopItemJson.x + "&y=" + shopItemJson.y + "&z=" + shopItemJson.z + "\" class=\"btn btn-info\" target=\"_blank\">Show In Map</a>");
+			$("#shopNameTitle").html(shopName + " <a href=\"http://shopw.mctnet.tk:2001/map/?worldname=world&mapname=flat&zoom=6&x=" + shopJson.x + "&y=" + shopJson.y + "&z=" + shopJson.z + "\" class=\"btn btn-info\" target=\"_blank\">Show In Map</a>");
 		
 			var itemsOfShop = getItemsOfShop(shopName);
 		
@@ -192,7 +205,10 @@ $(document).ready(function (){
 		captionNodeStr += "<p>" + shopItemJson.desc + "</p>";
 		
 		if (doc.endsWith("shop_item.html")){
-			captionNodeStr += "<a href=\"#\" class=\"btn btn-primary\" onclick=\"buy_item('" + shopItemUid + "')\">Buy now</a>";	
+			if (shopItemJson.buyAllowed){
+				captionNodeStr += "<a href=\"#\" class=\"btn btn-primary\" onclick=\"buy_item('" + shopItemUid + "')\">Buy now</a>";	
+			}
+			captionNodeStr += "<a href=\"http://shopw.mctnet.tk:2001/map/?worldname=world&mapname=flat&zoom=6&x=" + shopItemJson.x + "&y=" + shopItemJson.y + "&z=" + shopItemJson.z + "\" class=\"btn btn-info\" target=\"_blank\">Show Shop Item Sign On Map</a>"	
 		}
 		
 		if (doc.endsWith("purchase.html")){
@@ -349,6 +365,17 @@ function downloadMcItemJson(){
 			window.location = "http://shop.mctnet.tk/";	
 		}
 	});	
+}
+
+function getShopByName(shopName){
+	if (shops != null){
+		var i;
+		for (i = 0; i < shops.length; i++){
+			if (shops[i].name == shopName){
+				return shops[i];	
+			}
+		}
+	}
 }
 
 function getItemsOfShop(shopName){
