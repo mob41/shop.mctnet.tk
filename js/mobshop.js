@@ -151,6 +151,8 @@ $(document).ready(function (){
 			ajaxQueue.push(fun);
 		}
 	} else if (doc.endsWith("shop_item.html") || doc.endsWith("purchase.html")){
+		$("#shopItemImage").attr("src", "loading.gif");
+		
 		shopItemUid = localStorage.getItem("shopItemUid");
 		var shopItemsArrStr = localStorage.getItem("shopItems");
 		var shopsArrStr = localStorage.getItem("shops");
